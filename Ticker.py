@@ -1,6 +1,7 @@
 from bitmex_websocket import BitMEXWebsocket
 import logging
 from time import sleep
+import config from .Utils
 
 
 # Basic use of websocket.
@@ -10,7 +11,7 @@ def run(mexbot):
 
     # Instantiating the WS will make it connect. Be sure to add your api_key/api_secret.
     ws = BitMEXWebsocket(endpoint="https://testnet.bitmex.com/api/v1", symbol=mexbot.symbol,
-                         api_key=None, api_secret=None)
+                         api_key=config.api_key || None, api_secret=config.api_secret || None)
 
     mexbot.logger.info("Instrument data: %s" % ws.get_instrument())
 

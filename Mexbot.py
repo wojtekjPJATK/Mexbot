@@ -2,36 +2,33 @@ import BitmexTicker
 import threading
 import time
 import logging
+import .Utils
 
 class Mexbot():
     
     def __init__(self):
-        self.ticker = None
-        self.logger = setup_logger()
+        self.utils = Utils()
+        self.currentPrice = None
+        utils.logger = setup_logger()
         self.logger.info("Starting Mexbot")
         self.symbol = "XBTUSD"
-        self.mexAPIThread = threading.Thread(target=BitmexTicker.run, args=[self])
+        self.tickerThread = threading.Thread(target=BitmexTicker.run, args=[self])
         self.mexAPIThread.start()
 
-    def updateTicker(self, ticker):
+    def getTicker(self, ticker):
         self.ticker = ticker
 
+    def signOrder(self, order):
+        pass
 
-def setup_logger():
-    # Prints logger info to terminal
-    logger = logging.getLogger()
-    logger.setLevel(logging.INFO)  # Change this to DEBUG if you want a lot more info
-    ch = logging.StreamHandler()
-    # create formatter
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    # add formatter to ch
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-    return logger
+    def executeOrder(self, order):
+        pass
+
+    def sendNotification(self):
+        pass
 
 
 if __name__ == "__main__":
     mexbot = Mexbot()
     while (True):
-        time.sleep(5)
-        mexbot.logger.info(mexbot.ticker)
+        pass
