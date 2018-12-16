@@ -1,0 +1,39 @@
+<Button>:
+    font_size: 10
+	color: 1,1,1,1
+	size_hint: 0.16, 0.05
+
+<FloatLayout>:
+    canvas.before:
+        Color:
+            rgba: 0.33, 0.35, 0.36, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text:'Place an order:'
+        pos: 5, -105
+
+    Image:
+        source: 'images/logo2.png'
+        pos: 0, 300
+
+    Button:
+	    text: "EXIT"
+		pos_hint: {"x": 0, 'y':0}
+	Button:
+	    text: "Like"
+		pos_hint: {"x": 0.16, 'y':0}
+	Button:
+	    text: "Noti"
+		pos_hint: {"x": 0.32, 'y':0}
+	Button:
+	    text: "Mes"
+		pos_hint: {"x": 0.48, 'y':0}
+	Button:
+	    text: "Set"
+		pos_hint: {"x": 0.64, 'y':0}
+	Button:
+	    text: "Hide"
+		pos_hint: {"x": 0.84, 'y':0}
