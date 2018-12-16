@@ -4,15 +4,17 @@ import time
 import logging
 import .Utils
 
+
 class Mexbot():
-    
+
     def __init__(self):
         self.utils = Utils()
         self.currentPrice = None
         utils.logger = setup_logger()
         self.logger.info("Starting Mexbot")
         self.symbol = "XBTUSD"
-        self.tickerThread = threading.Thread(target=BitmexTicker.run, args=[self])
+        self.tickerThread = threading.Thread(
+            target=BitmexTicker.run, args=[self])
         self.mexAPIThread.start()
 
     def getTicker(self, ticker):
