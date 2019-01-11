@@ -4,7 +4,6 @@ import time
 import logging
 import Utils as utils
 import bitmex
-import json
 
 
 class Mexbot():
@@ -33,7 +32,6 @@ class Mexbot():
         pass
 
     def executeOrder(self, order):
-
         pass
 
     def sendNotification(self):
