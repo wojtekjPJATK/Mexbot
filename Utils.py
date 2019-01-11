@@ -1,6 +1,7 @@
 import logging
 import requests
 import time
+import json
 
 API_URL = 'https://testnet.bitmex.com/api/v1'
 
@@ -20,11 +21,13 @@ def setup_logger():
     return logger
 
 
-def congif():
-    pass
+def load_config():
+    json_data = open("config.json").read()
+    data = json.loads(json_data)
+    return data
 
 
-def getInstruments():
+def get_instruments():
     r = requests.get(API_URL + '/instrument/active',
                      headers={'Accept': 'application/json'})
     instruments = [instrument.get('symbol') for instrument in r.json()]

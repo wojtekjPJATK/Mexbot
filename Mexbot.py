@@ -12,7 +12,9 @@ class Mexbot():
         self.logger = utils.setup_logger()
         self.logger.info("Starting Mexbot")
         self.symbol = "XBTUSD"
-        self.instruments = utils.getInstruments()
+        self.config = utils.load_config()
+        print(self.config)
+        self.instruments = utils.get_instruments()
         self.logger.info("Available instruments: " + str(self.instruments))
         time.sleep(5)
         self.tickerThread = threading.Thread(
