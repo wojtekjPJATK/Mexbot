@@ -3,6 +3,7 @@ import threading
 import time
 import logging
 import Utils as utils
+import bitmex
 
 
 class Mexbot():
@@ -13,10 +14,10 @@ class Mexbot():
         self.logger.info("Starting Mexbot")
         self.symbol = "XBTUSD"
         self.config = utils.load_config()
-        print(self.config)
         self.instruments = utils.get_instruments()
         self.logger.info("Available instruments: " + str(self.instruments))
-        time.sleep(5)
+        self.client = bitmex.bitmex(api_key=self.config.get(
+            'api_key'), api_secret=self.config.get('api_secret'))
         self.tickerThread = threading.Thread(
             target=Ticker.run, args=[self])
         self.tickerThread.start()
@@ -31,6 +32,7 @@ class Mexbot():
         pass
 
     def executeOrder(self, order):
+
         pass
 
     def sendNotification(self):
