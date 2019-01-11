@@ -4,7 +4,6 @@ import time
 import logging
 import Utils as utils
 import bitmex
-import json
 
 
 class Mexbot():
