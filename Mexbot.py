@@ -1,24 +1,31 @@
-import BitmexTicker
+import Ticker
 import threading
 import time
 import logging
-import .Utils
+import Utils as utils
 
 
 class Mexbot():
 
     def __init__(self):
-        self.utils = Utils()
         self.currentPrice = None
-        utils.logger = setup_logger()
+        self.logger = utils.setup_logger()
         self.logger.info("Starting Mexbot")
         self.symbol = "XBTUSD"
+        self.config = utils.load_config()
+        print(self.config)
+        self.instruments = utils.get_instruments()
+        self.logger.info("Available instruments: " + str(self.instruments))
+        time.sleep(5)
         self.tickerThread = threading.Thread(
-            target=BitmexTicker.run, args=[self])
-        self.mexAPIThread.start()
+            target=Ticker.run, args=[self])
+        self.tickerThread.start()
 
-    def getTicker(self, ticker):
-        self.ticker = ticker
+    def getTicker(self):
+        return self.currentPrice
+
+    def updateTicker(self, ticker):
+        self.currentPrice = ticker
 
     def signOrder(self, order):
         pass
@@ -29,8 +36,16 @@ class Mexbot():
     def sendNotification(self):
         pass
 
+    def setInstruments(self, instruments):
+        self.instruments = instruments
+
+    def changeSymbol(self, symbol):
+        if symbol in self.instruments:
+            self.symbol = symbol
+
 
 if __name__ == "__main__":
     mexbot = Mexbot()
     while (True):
-        pass
+        time.sleep(5)
+        print(mexbot.getTicker())

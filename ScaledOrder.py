@@ -1,4 +1,3 @@
-#! /usr/bin/python3
 import random
 import math
 from LimitOrder import LimitOrder
