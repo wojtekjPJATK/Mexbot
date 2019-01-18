@@ -43,6 +43,7 @@ def start(order, amount, price, symbol, position):
 
     else:
         mexbot.logger.error("Invalid order type")
+
     if position:
         result = mexbot.get_position()
         result = result[0]
