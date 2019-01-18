@@ -5,11 +5,14 @@ from kivy.uix.image import Image
 from kivy.uix.spinner import Spinner
 from kivy.uix.label import Label
 from kivy.config import Config
-
-
 from kivy.core.window import Window
+
+Config.set('graphics', 'position', 'custom')
+Config.set('graphics', 'left', 10)
+Config.set('graphics', 'top',  50)
+
 Config.set('graphics', 'resizable', False)
-Config.write()
+
 
 Window.size = (200, 800)
 
@@ -28,10 +31,10 @@ def show_selected_value(spinner, text):
 if __name__ == "__main__":
     spinner1 = Spinner(
         text='Pick order type',
-        values=('Order 1', 'Order 2', 'Order 3', 'Order 4'),
+        values=('Limit Order', 'Market order', 'Scaled Order', 'Iceberg Order'),
         size_hint=(1, None),
         size=(200, 30),
-        pos_hint={'x': 0, 'y': 0.3})
+        pos_hint={'x': 0, 'y': 0.5})
 
     spinner2 = Spinner(
         text='XBTUSD',
@@ -43,5 +46,3 @@ if __name__ == "__main__":
     spinner1.bind(text=show_selected_value)
     spinner2.bind(text=show_selected_value)
     UI().run()
-
-
