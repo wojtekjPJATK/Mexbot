@@ -39,16 +39,3 @@ class IcebergOrder:
                 self.orders.sort(key=orderCompare, reverse=True)
                 self.orders[0].amount -= 1
                 dif += 1
-
-        sum = 0
-        for order in self.orders:
-            print("order size: " + str(format(order.amount, '.2f')) +
-                  ", price: " + str(format(order.price, '.2f')))
-            sum += order.amount
-
-        print("sum: " + str(format(sum, '.2f')))
-
-
-#total_amount, order_count, price, variance
-io = IcebergOrder(100000, 100, 123, 55)
-print(io)
