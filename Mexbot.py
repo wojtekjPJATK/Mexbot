@@ -47,7 +47,6 @@ def start(order, amount, price, symbol, position):
     if position:
         result = mexbot.get_position()
         result = result[0]
-        print(result)
         qty = result[0].get("currentQty")
         symbol = result[0].get("symbol")
         mexbot.logger.info("Current position on {} is {}".format(symbol, qty))
@@ -59,7 +58,12 @@ class Mexbot():
         self.currentPrice = None
         self.logger = utils.setup_logger()
         self.logger.debug("Starting Mexbot")
-        self.symbol = symbol
+        self.instruments = utils.get_instruments()
+        if symbol in self.instruments:
+            self.symbol = symbol
+        else:
+            self.symbol = "XBTUSD"
+        print(symbol)
         self.config = utils.load_config()
         self.instruments = utils.get_instruments()
         self.logger.info("Available instruments: " + str(self.instruments))
