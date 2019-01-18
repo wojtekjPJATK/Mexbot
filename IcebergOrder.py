@@ -1,12 +1,11 @@
-#! /usr/bin/python3
-
-# Import Built-Ins
 import random
 import math
 from LimitOrder import LimitOrder
 
+
 def orderCompare(order):
     return order.amount
+
 
 class IcebergOrder:
     def __init__(self, total_amount, order_count, price, variance):
@@ -29,7 +28,7 @@ class IcebergOrder:
             self.orders.append(LimitOrder(size, self.price))
 
         dif = self.total_amount - sum
-       
+
         while dif != 0:
 
             if dif > 0:
@@ -37,7 +36,7 @@ class IcebergOrder:
                 self.orders[0].amount += 1
                 dif -= 1
             elif dif < 0:
-                self.orders.sort(key=orderCompare,reverse=True)
+                self.orders.sort(key=orderCompare, reverse=True)
                 self.orders[0].amount -= 1
                 dif += 1
 
@@ -48,7 +47,6 @@ class IcebergOrder:
             sum += order.amount
 
         print("sum: " + str(format(sum, '.2f')))
-
 
 
 #total_amount, order_count, price, variance
