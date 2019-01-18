@@ -11,13 +11,13 @@ from LimitOrder import LimitOrder
 
 
 @click.command()
-@click.option('--order', '-o', default="", type=click.Choice(["", 'market', 'limit']), prompt='Enter the order type (market/limit)', help='For order definitions check bitmex documentation')
+@click.option('--order', '-o', default="", help='For order definitions check bitmex documentation')
 @click.option('--amount', '-a', default=0, help='Enter order size')
 @click.option('--price', '-p', default=0, help='-price is used only in limit order')
 @click.option('--symbol', '-s', default="XBTUSD", help="Picking pair to trade. By default using XBTUSD")
 @click.option('--position', is_flag=True, help="Will print your current position on the current symbol")
 def start(order, amount, price, symbol, position):
-    mexbot = Mexbot()
+    mexbot = Mexbot(symbol)
 
     if order == "market":
         if price > 0:
@@ -47,6 +47,7 @@ def start(order, amount, price, symbol, position):
     if position:
         result = mexbot.get_position()
         result = result[0]
+        print(result)
         qty = result[0].get("currentQty")
         symbol = result[0].get("symbol")
         mexbot.logger.info("Current position on {} is {}".format(symbol, qty))
@@ -54,14 +55,14 @@ def start(order, amount, price, symbol, position):
 
 class Mexbot():
 
-    def __init__(self):
+    def __init__(self, symbol):
         self.currentPrice = None
         self.logger = utils.setup_logger()
         self.logger.debug("Starting Mexbot")
-        self.symbol = "XBTUSD"
+        self.symbol = symbol
         self.config = utils.load_config()
         self.instruments = utils.get_instruments()
-        self.logger.debug("Available instruments: " + str(self.instruments))
+        self.logger.info("Available instruments: " + str(self.instruments))
         self.client = bitmex.bitmex(api_key=self.config.get(
             'api_key'), api_secret=self.config.get('api_secret'))
         self.tickerThread = threading.Thread(
