@@ -11,17 +11,66 @@
             pos: self.pos
             size: self.size
 
+    canvas:
+        Color:
+            rgba: 0, 0, 0, .5
+        Line:
+            points: 10, 50, 10, 250, 190, 250, 190, 50, 10, 50
+            width: 1.0
+
+
     Label:
         text:'Place an order:'
-        pos: 5, -105
+        font_size: 20
+        pos: 5, 50
+
+    TextInput:
+        id: amount
+        pos: 10,  360
+        size_hint: (None, None)
+        height: 30
+        width: 85
+        multiline: False
+        hint_text: 'Amount'
+        input_filter: 'int'
+
+    TextInput:
+        id: price
+        pos: 105,  360
+        size_hint: (None, None)
+        height: 30
+        width: 85
+        multiline: False
+        hint_text: 'Price'
+        input_filter: 'int'
+
+	Button:
+	    id: submit_button
+	    text: "Submit"
+		pos: 50, 300
+		size_hint: 0.5, 0.05
+
+    Label:
+        id: order_alert
+        text:'Order placed'
+        pos: 0, -240
+        text_size: 160, None
+        height: self.texture_size[1]
+
+    Label:
+        id: price_label
+        text:'41.86'
+        pos: 5, 140
 
     Image:
         source: 'images/logo2.png'
         pos: 0, 300
 
+
     Button:
 	    text: "EXIT"
 		pos_hint: {"x": 0, 'y':0}
+		on_press: app.stop()
 	Button:
 	    text: "Like"
 		pos_hint: {"x": 0.16, 'y':0}
