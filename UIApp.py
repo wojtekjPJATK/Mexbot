@@ -10,6 +10,7 @@ from kivy.core.window import Window
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 
+
 Config.set('graphics', 'position', 'custom')
 Config.set('graphics', 'left', 10)
 Config.set('graphics', 'top',  50)
