@@ -2,13 +2,12 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.image import Image
 from kivy.uix.spinner import Spinner
-from kivy.uix.label import Label
 from kivy.config import Config
 from kivy.core.window import Window
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
+import threading
 
 
 Config.set('graphics', 'position', 'custom')
@@ -22,7 +21,6 @@ Window.size = (200, 800)
 
 
 class RootWidget(FloatLayout):
-
 
     spinner1 = Spinner(
         text='Pick order type',
@@ -198,12 +196,12 @@ class RootWidget(FloatLayout):
 class UI(App):
     def build(self):
         root = RootWidget()
-        print(root.x)
         root.add_widget(root.spinner1)
         root.add_widget(root.spinner2)
         return root
 
 
-
 if __name__ == "__main__":
-    UI().run()
+    app = UI()
+    app.run()
+
