@@ -3,6 +3,7 @@
 	color: 1,1,1,1
 	size_hint: 0.16, 0.05
 
+
 <FloatLayout>:
     canvas.before:
         Color:
@@ -24,32 +25,6 @@
         font_size: 20
         pos: 5, 50
 
-    TextInput:
-        id: amount
-        pos: 10,  360
-        size_hint: (None, None)
-        height: 30
-        width: 85
-        multiline: False
-        hint_text: 'Amount'
-        input_filter: 'int'
-
-    TextInput:
-        id: price
-        pos: 105,  360
-        size_hint: (None, None)
-        height: 30
-        width: 85
-        multiline: False
-        hint_text: 'Price'
-        input_filter: 'int'
-
-	Button:
-	    id: submit_button
-	    text: "Submit"
-		pos: 50, 300
-		size_hint: 0.5, 0.05
-
     Label:
         id: order_alert
         text:'Order placed'
@@ -60,7 +35,8 @@
     Label:
         id: price_label
         text:'41.86'
-        pos: 5, 140
+        pos: 5, 120
+        font_size: 30
 
     Image:
         source: 'images/logo2.png'
@@ -71,18 +47,7 @@
 	    text: "EXIT"
 		pos_hint: {"x": 0, 'y':0}
 		on_press: app.stop()
+
 	Button:
-	    text: "Like"
-		pos_hint: {"x": 0.16, 'y':0}
-	Button:
-	    text: "Noti"
-		pos_hint: {"x": 0.32, 'y':0}
-	Button:
-	    text: "Mes"
-		pos_hint: {"x": 0.48, 'y':0}
-	Button:
-	    text: "Set"
-		pos_hint: {"x": 0.64, 'y':0}
-	Button:
-	    text: "Hide"
+	    text: "Sett"
 		pos_hint: {"x": 0.84, 'y':0}
