@@ -199,7 +199,42 @@ class RootWidget(FloatLayout):
 
         def sell(self):
             print("sell")
-            print(input_variance)
+    
+            if (orderType == "Iceberg Order"):
+                total_amount = int(input_total_amount.text)
+                total_amount = -total_amount
+                order_count = int(input_order_count.text)
+                price = int(input_price.text)
+                variance = int(input_variance.text)
+
+
+                if(total_amount > 0 and order_count > 0 and price > 0 and variance > 0):
+                    #total_amount, order_count, price, variance
+                    #io = IcebergOrder(100000, 100, 123, 55)
+                    IcebergOrder(total_amount, order_count, price, variance)
+                    popup_alert.open()
+                    popup.dismiss()
+
+
+            elif (orderType == "Market Order"):
+                number = int(input_number.text)
+                number = -number
+                if(number > 0):
+                    MarketOrder(number)
+                    popup_alert.open()
+                    popup.dismiss()
+
+            elif (orderType == "Limit Order"):
+                number = int(input_number.text)
+                number = -number
+                price = int(input_price.text)
+                if(number > 0 and price > 0):
+                    LimitOrder(number, price)
+                    popup_alert.open()
+                    popup.dismiss()
+
+
+
 
     
 
