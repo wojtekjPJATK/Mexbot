@@ -48,7 +48,7 @@ class RootWidget(FloatLayout):
         size=(200, 30),
         pos_hint={'x': 0, 'y': 0.7})
 
-    def show_selectec_pair(self, pair):
+    def show_selected_pair(self, pair):
         print('Pair: ' + pair)
         #mex = Mexbot(pair)
 
@@ -184,7 +184,7 @@ class RootWidget(FloatLayout):
 
             elif (orderType == "Market Order"):
                 number = int(input_number.text)
-                if(number > 0):
+                if(number > 0 and number):
                     MarketOrder(number)
                     popup_alert.open()
                     popup.dismiss()
@@ -208,7 +208,7 @@ class RootWidget(FloatLayout):
                 variance = int(input_variance.text)
 
 
-                if(total_amount > 0 and order_count > 0 and price > 0 and variance > 0):
+                if(total_amount < 0 and order_count > 0 and price > 0 and variance > 0):
                     #total_amount, order_count, price, variance
                     #io = IcebergOrder(100000, 100, 123, 55)
                     IcebergOrder(total_amount, order_count, price, variance)
@@ -219,7 +219,7 @@ class RootWidget(FloatLayout):
             elif (orderType == "Market Order"):
                 number = int(input_number.text)
                 number = -number
-                if(number > 0):
+                if(number < 0):
                     MarketOrder(number)
                     popup_alert.open()
                     popup.dismiss()
@@ -228,7 +228,7 @@ class RootWidget(FloatLayout):
                 number = int(input_number.text)
                 number = -number
                 price = int(input_price.text)
-                if(number > 0 and price > 0):
+                if(number < 0 and price > 0):
                     LimitOrder(number, price)
                     popup_alert.open()
                     popup.dismiss()
@@ -288,7 +288,7 @@ class RootWidget(FloatLayout):
         popup.open()
 
     spinner1.bind(text=show_selected_value)
-    spinner2.bind(text=show_selectec_pair)
+    spinner2.bind(text=show_selected_pair)
 
 
 class UI(App):
@@ -300,6 +300,7 @@ class UI(App):
 
 
 if __name__ == "__main__":
+    mexbot = Mexbot("XBTUSD")
     app = UI()
     app.run()
     def newThread():
@@ -307,3 +308,4 @@ if __name__ == "__main__":
 
     thread = threading.Thread(target=newThread, args=())
     thread.start()
+    
