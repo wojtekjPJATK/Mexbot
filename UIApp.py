@@ -300,7 +300,7 @@ class UI(App):
 
 
 if __name__ == "__main__":
-    mexbot = Mexbot("XBTUSD")
+    #mexbot = Mexbot("XBTUSD")
     app = UI()
     app.run()
     def newThread():
