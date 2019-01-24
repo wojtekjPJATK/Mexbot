@@ -50,5 +50,5 @@ class IcebergOrder:
 
 
 #total_amount, order_count, price, variance
-io = IcebergOrder(100000, 100, 123, 55)
-print(io)
+#io = IcebergOrder(100000, 100, 123, 55)
+#print(io)

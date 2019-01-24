@@ -11,10 +11,10 @@ class Cords:
 
 class ScaledOrder:
     def __init__(self, total_amount, order_count, price_low, price_high, amount_variance, price_variance, distribution):
-        self.total_amount = total_amount
-        self.order_count = order_count
-        self.price_low = price_low
-        self.price_high = price_high
+        self.total_amount = int(total_amount)
+        self.order_count = int(order_count)
+        self.price_low = int(price_low)
+        self.price_high = int(price_high)
         self.amount_variance = amount_variance
         self.price_variance = price_variance
         self.orders = []
@@ -100,5 +100,5 @@ class ScaledOrder:
 
 
 # total_amount, order_count, price_low, price_high, amount_variance, price_variance, distribution
-so = ScaledOrder(50000, 11, 3300, 3500, 10, 10, [10, 80, 10, 40, 100])
+#so = ScaledOrder(50000, 11, 3300, 3500, 10, 10, [10, 80, 10, 40, 100])
 # so = ScaledOrder(10, 5, 10, 100, 5, 5, 1)

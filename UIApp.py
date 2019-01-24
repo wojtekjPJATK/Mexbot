@@ -8,6 +8,7 @@ from kivy.core.window import Window
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 import threading
+from Mexbot import Mexbot
 
 
 Config.set('graphics', 'position', 'custom')
@@ -37,7 +38,7 @@ class RootWidget(FloatLayout):
         size=(200, 30),
         pos_hint={'x': 0, 'y': 0.7})
 
-    def show_selected_value(spinner, orderType):
+    def show_selected_value(self, orderType):
         content = GridLayout()
         input1 = TextInput(
             id='number',
@@ -204,4 +205,8 @@ class UI(App):
 if __name__ == "__main__":
     app = UI()
     app.run()
+    def newThread():
+        app.run()
 
+    thread = threading.Thread(target=newThread, args=())
+    thread.start()
