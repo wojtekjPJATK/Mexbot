@@ -177,7 +177,8 @@ class RootWidget(FloatLayout):
                 if(total_amount > 0 and order_count > 0 and price > 0 and variance > 0):
                     #total_amount, order_count, price, variance
                     #io = IcebergOrder(100000, 100, 123, 55)
-                    IcebergOrder(total_amount, order_count, price, variance)
+                    order = IcebergOrder(total_amount, order_count, price, variance)
+                    #result = mexbot.executeOrder(order)
                     popup_alert.open()
                     popup.dismiss()
 
@@ -185,7 +186,8 @@ class RootWidget(FloatLayout):
             elif (orderType == "Market Order"):
                 number = int(input_number.text)
                 if(number > 0 and number):
-                    MarketOrder(number)
+                    order = MarketOrder(number)
+                    #result = mexbot.executeOrder(order)
                     popup_alert.open()
                     popup.dismiss()
 
@@ -193,7 +195,8 @@ class RootWidget(FloatLayout):
                 number = int(input_number.text)
                 price = int(input_price.text)
                 if(number > 0 and price > 0):
-                    LimitOrder(number, price)
+                    order = LimitOrder(number, price)
+                    #result = mexbot.executeOrder(order)
                     popup_alert.open()
                     popup.dismiss()
 
@@ -211,7 +214,8 @@ class RootWidget(FloatLayout):
                 if(total_amount < 0 and order_count > 0 and price > 0 and variance > 0):
                     #total_amount, order_count, price, variance
                     #io = IcebergOrder(100000, 100, 123, 55)
-                    IcebergOrder(total_amount, order_count, price, variance)
+                    order = IcebergOrder(total_amount, order_count, price, variance)
+                    #result = mexbot.executeOrder(order)
                     popup_alert.open()
                     popup.dismiss()
 
@@ -220,7 +224,8 @@ class RootWidget(FloatLayout):
                 number = int(input_number.text)
                 number = -number
                 if(number < 0):
-                    MarketOrder(number)
+                    order = MarketOrder(number)
+                    #result = mexbot.executeOrder(order)
                     popup_alert.open()
                     popup.dismiss()
 
@@ -229,7 +234,8 @@ class RootWidget(FloatLayout):
                 number = -number
                 price = int(input_price.text)
                 if(number < 0 and price > 0):
-                    LimitOrder(number, price)
+                    order = LimitOrder(number, price)
+                    #result = mexbot.executeOrder(order)
                     popup_alert.open()
                     popup.dismiss()
 
@@ -300,7 +306,6 @@ class UI(App):
 
 
 if __name__ == "__main__":
-    #mexbot = Mexbot("XBTUSD")
     app = UI()
     app.run()
     def newThread():
