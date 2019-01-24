@@ -111,7 +111,3 @@ class Mexbot():
         if symbol in self.instruments:
             self.symbol = symbol
 
-
-if __name__ == "__main__":
-    start()
-    sys.exit()
