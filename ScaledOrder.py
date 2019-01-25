@@ -15,8 +15,8 @@ class ScaledOrder:
         self.order_count = int(order_count)
         self.price_low = int(price_low)
         self.price_high = int(price_high)
-        self.amount_variance = amount_variance
-        self.price_variance = price_variance
+        self.amount_variance = int(amount_variance)
+        self.price_variance = int(price_variance)
         self.orders = []
         if type(distribution) is list:
             self.distribution = self.get_distribution(distribution)

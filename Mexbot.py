@@ -19,7 +19,8 @@ from IcebergOrder import IcebergOrder
 @click.option('--price', '-p', default=0, help='-price is used only in limit order')
 @click.option('--symbol', '-s', default="XBTUSD", help="Picking pair to trade. By default using XBTUSD")
 @click.option('--position', is_flag=True, help="Will print your current position on the current symbol")
-def start(order, amount, price, symbol, position):
+@click.option('--ticker', is_flag=True, help="Will print ticker of chosen symbol. By default using XBTUSD")
+def start(order, amount, price, symbol, position, ticker):
     mexbot = Mexbot(symbol)
 
     if order == "market":
@@ -41,7 +42,10 @@ def start(order, amount, price, symbol, position):
             click.echo(
                 'In limit orders price must be greater than 0')
     elif order == "iceberg":
-        order = IcebergOrder(5, 2, 3500, 0)
+        total = input("Size of order: ")
+        count = input("Number of orders: ")
+        price = input("Price: ")
+        order = IcebergOrder(int(total), int(count), int(price), 50)
         result = mexbot.executeOrder(order)
 
     elif order == "scaled":
@@ -55,7 +59,7 @@ def start(order, amount, price, symbol, position):
         elif distribution == "falling":
             distribution = [100, 75, 50, 25, 1]
         elif distribution == "raising":
-            distribution == [1, 25, 50, 75, 100]
+            distribution = [1, 25, 50, 75, 100]
         else:
             mexbot.logger.error(
                 "Wrong distribution, allowed flat, raising or falling")
@@ -73,8 +77,11 @@ def start(order, amount, price, symbol, position):
         qty = result[0].get("currentQty")
         symbol = result[0].get("symbol")
         mexbot.logger.info("Current position on {} is {}".format(symbol, qty))
-        time.sleep(5)
-        print(mexbot.getTicker())
+
+    if ticker:
+        while 1:
+            mexbot.logger.info("Ticker: {}".format(mexbot.get_ticker()))
+            time.sleep(3)
 
 
 class Mexbot():
@@ -91,25 +98,32 @@ class Mexbot():
         self.config = utils.load_config()
         self.instruments = utils.get_instruments()
         self.logger.debug("Available instruments: " + str(self.instruments))
-        self.client = bitmex.bitmex(api_key=self.config.get(
-            'api_key'), api_secret=self.config.get('api_secret'))
+        try:
+            self.client = bitmex.bitmex(api_key=self.config.get(
+                'api_key'), api_secret=self.config.get('api_secret'))
+        except:
+            self.logger.error("Cant connect to the exchange")
+            sys.exit()
         self.tickerThread = threading.Thread(
             target=Ticker.run, args=[self], daemon=True)
         self.tickerThread.start()
 
-    def getTicker(self):
+    def get_ticker(self):
         return self.currentPrice
 
     def updateTicker(self, ticker):
         self.currentPrice = ticker
 
     def get_position(self):
-        return self.client.Position.Position_get(
-            filter=json.dumps({'symbol': self.symbol})).result()
+        try:
+            return self.client.Position.Position_get(
+                filter=json.dumps({'symbol': self.symbol})).result()
+        except:
+            self.logger.error("Cant rerieve current position")
+            sys.exit()
 
     def executeOrder(self, order):
         order_type = type(order)
-        print(order_type)
         if order_type is LimitOrder or order_type is MarketOrder:
             try:
                 result = self.client.Order.Order_new(
@@ -135,9 +149,6 @@ class Mexbot():
                 time.sleep(1)
 
             return results
-
-    def sendNotification(self):
-        pass
 
     def setInstruments(self, instruments):
         self.instruments = instruments
