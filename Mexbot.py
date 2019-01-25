@@ -30,28 +30,39 @@ def start(order, amount, price, symbol, position):
             order = MarketOrder(amount)
             if order:
                 result = mexbot.executeOrder(order)
-                mexbot.logger.info("Order " + str(result[0].get("ordStatus")))
 
     elif order == "limit":
         if amount != 0 and price > 0:
             order = LimitOrder(amount, price)
             if order:
                 result = mexbot.executeOrder(order)
-                mexbot.logger.info("Order " + str(result[0].get("ordStatus")))
         else:
             click.echo(
                 'In limit orders price must be greater than 0')
     elif order == "iceberg":
-        print("iceberg")
+        order = IcebergOrder(5, 2, 3500, 0)
+        result = mexbot.executeOrder(order)
+
     elif order == "scaled":
         total = input('Size of order: ')
         count = input('Number of orders: ')
         low = input('Lowest price: ')
         high = input('Highest price: ')
-        distr = input('Disctribution(flat/falling/raising): ')
-        order = ScaledOrder(total, count, low, high, 0, 0, [1, 1, 1, 1, 1])
+        distribution = input('Disctribution(flat/falling/raising): ')
+        if distribution == "flat":
+            distribution = [25, 25, 25, 25, 25]
+        elif distribution == "falling":
+            distribution = [100, 75, 50, 25, 1]
+        elif distribution == "raising":
+            distribution == [1, 25, 50, 75, 100]
+        else:
+            mexbot.logger.error(
+                "Wrong distribution, allowed flat, raising or falling")
+            sys.exit()
+
+        order = ScaledOrder(total, count, low, high, 0, 0, distribution)
         result = mexbot.executeOrder(order)
-        mexbot.logger.info("Order " + str(result[0].get("ordStatus")))
+
     else:
         mexbot.logger.error("Invalid order type")
 
@@ -96,10 +107,33 @@ class Mexbot():
             filter=json.dumps({'symbol': self.symbol})).result()
 
     def executeOrder(self, order):
-        if order.orders:
+        order_type = type(order)
+        print(order_type)
+        if order_type is LimitOrder or order_type is MarketOrder:
+            try:
+                result = self.client.Order.Order_new(
+                    symbol=self.symbol, orderQty=order.amount).result()
+                self.logger.info("Order " + str(result[0].get("ordStatus")))
+                return result
+            except:
+                self.logger.error("Order rejected by the exchange")
+
+        elif order_type is IcebergOrder or order_type is ScaledOrder:
+            results = []
             for o in order.orders:
-                print(o)
-        return self.client.Order.Order_new(symbol=self.symbol, orderQty=order.amount).result()
+                try:
+                    result = self.client.Order.Order_new(
+                        symbol=self.symbol, orderQty=o.amount, price=o.price).result()
+                    results.append(result)
+
+                    self.logger.info(
+                        "Order " + str(result[0].get("ordStatus")))
+                except:
+                    self.logger.error("Order rejected by the exchange")
+
+                time.sleep(1)
+
+            return results
 
     def sendNotification(self):
         pass
