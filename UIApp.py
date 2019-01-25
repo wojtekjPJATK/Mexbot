@@ -53,6 +53,11 @@ class RootWidget(FloatLayout):
         #mex = Mexbot(pair)
         return pair
 
+    def set_price_label(self):
+        price_label = "20"
+        return price_label
+
+
     def show_selected_value(self, orderType):
 
         content = GridLayout()
@@ -169,76 +174,82 @@ class RootWidget(FloatLayout):
 
 
             if (orderType == "Iceberg Order"):
-                total_amount = int(input_total_amount.text)
-                order_count = int(input_order_count.text)
-                price = int(input_price.text)
-                variance = int(input_variance.text)
+                if(input_total_amount.text != '' and input_order_count.text != '' and input_price.text != '' and input_variance.text != ''):
+                    total_amount = int(input_total_amount.text)
+                    order_count = int(input_order_count.text)
+                    price = int(input_price.text)
+                    variance = int(input_variance.text)
 
 
-                if(total_amount > 0 and order_count > 0 and price > 0 and variance > 0):
-                    #total_amount, order_count, price, variance
-                    #io = IcebergOrder(100000, 100, 123, 55)
-                    order = IcebergOrder(total_amount, order_count, price, variance)
-                    #result = mexbot.executeOrder(order)
-                    popup_alert.open()
-                    popup.dismiss()
+                    if(total_amount > 0 and order_count > 0 and price > 0 and variance > 0):
+                        #total_amount, order_count, price, variance
+                        #io = IcebergOrder(100000, 100, 123, 55)
+                        order = IcebergOrder(total_amount, order_count, price, variance)
+                        #result = mexbot.executeOrder(order)
+                        popup_alert.open()
+                        popup.dismiss()
 
 
             elif (orderType == "Market Order"):
-                number = int(input_number.text)
-                if(number > 0 and number):
-                    order = MarketOrder(number)
-                    #result = mexbot.executeOrder(order)
-                    popup_alert.open()
-                    popup.dismiss()
+                if(input_number.text != ''):
+                    number = int(input_number.text)
+                    if(number > 0 and number):
+                        order = MarketOrder(number)
+                        #result = mexbot.executeOrder(order)
+                        popup_alert.open()
+                        popup.dismiss()
 
             elif (orderType == "Limit Order"):
-                number = int(input_number.text)
-                price = int(input_price.text)
-                if(number > 0 and price > 0):
-                    order = LimitOrder(number, price)
-                    #result = mexbot.executeOrder(order)
-                    popup_alert.open()
-                    popup.dismiss()
+                if(input_number.text != '' and input_price.text != ''):
+                    number = int(input_number.text)
+                    price = int(input_price.text)
+                    if(number > 0 and price > 0):
+                        order = LimitOrder(number, price)
+                        #result = mexbot.executeOrder(order)
+                        popup_alert.open()
+                        popup.dismiss()
 
         def sell(self):
             print("sell")
     
             if (orderType == "Iceberg Order"):
-                total_amount = int(input_total_amount.text)
-                total_amount = -total_amount
-                order_count = int(input_order_count.text)
-                price = int(input_price.text)
-                variance = int(input_variance.text)
+                if(input_total_amount.text != '' and input_order_count.text != '' and input_price.text != '' and input_variance.text != ''):
+                    total_amount = int(input_total_amount.text)
+                    total_amount = -total_amount
+                    order_count = int(input_order_count.text)
+                    price = int(input_price.text)
+                    variance = int(input_variance.text)
 
 
-                if(total_amount < 0 and order_count > 0 and price > 0 and variance > 0):
-                    #total_amount, order_count, price, variance
-                    #io = IcebergOrder(100000, 100, 123, 55)
-                    order = IcebergOrder(total_amount, order_count, price, variance)
-                    #result = mexbot.executeOrder(order)
-                    popup_alert.open()
-                    popup.dismiss()
+                    if(total_amount < 0 and order_count > 0 and price > 0 and variance > 0):
+                        #total_amount, order_count, price, variance
+                        #io = IcebergOrder(100000, 100, 123, 55)
+                        order = IcebergOrder(total_amount, order_count, price, variance)
+                        #result = mexbot.executeOrder(order)
+                        popup_alert.open()
+                        popup.dismiss()
 
 
             elif (orderType == "Market Order"):
-                number = int(input_number.text)
-                number = -number
-                if(number < 0):
-                    order = MarketOrder(number)
-                    #result = mexbot.executeOrder(order)
-                    popup_alert.open()
-                    popup.dismiss()
+                if(input_number.text != ''):
+                    number = int(input_number.text)
+                    number = -number
+                    if(number < 0):
+                        order = MarketOrder(number)
+                        #result = mexbot.executeOrder(order)
+                        popup_alert.open()
+                        popup.dismiss()
 
             elif (orderType == "Limit Order"):
-                number = int(input_number.text)
-                number = -number
-                price = int(input_price.text)
-                if(number < 0 and price > 0):
-                    order = LimitOrder(number, price)
-                    #result = mexbot.executeOrder(order)
-                    popup_alert.open()
-                    popup.dismiss()
+                if(input_number.text != '' and input_price.text != ''):
+                    number = int(input_number.text)
+                    number = -number
+                    price = int(input_price.text)
+                    if(number < 0 and price > 0):
+                        order = LimitOrder(number, price)
+                        #result = mexbot.executeOrder(order)
+                        popup_alert.open()
+                        popup.dismiss()
 
 
 
@@ -308,9 +319,5 @@ class UI(App):
 
 if __name__ == "__main__":
     app = UI()
-    def newThread():
-        app.run()
-
-    thread = threading.Thread(target=newThread, args=())
-    thread.start()
+    app.run()
     
