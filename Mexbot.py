@@ -6,6 +6,7 @@ import Utils as utils
 import bitmex
 import click
 import json
+import sys
 from MarketOrder import MarketOrder
 from LimitOrder import LimitOrder
 from ScaledOrder import ScaledOrder
@@ -147,5 +148,7 @@ class Mexbot():
 
 
 if __name__ == "__main__":
+    # click handling the parameters
+    # pylint: disable=no-value-for-parameter
     start()
     sys.exit()
