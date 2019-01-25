@@ -79,6 +79,8 @@ def start(order, amount, price, symbol, position, ticker):
         qty = result[0].get("currentQty")
         symbol = result[0].get("symbol")
         mexbot.logger.info("Current position on {} is {}".format(symbol, qty))
+        time.sleep(5)
+        print(mexbot.getTicker())
 
     if ticker:
         while 1:
@@ -90,6 +92,7 @@ class Mexbot():
 
     def __init__(self, symbol):
         self.current_price = None
+
         self.logger = utils.setup_logger()
         self.logger.debug("Starting Mexbot")
         self.instruments = utils.get_instruments()
