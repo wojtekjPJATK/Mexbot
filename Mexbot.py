@@ -31,22 +31,23 @@ def start(order, amount, price, symbol, position, ticker):
         else:
             order = MarketOrder(amount)
             if order:
-                result = mexbot.executeOrder(order)
+                result = mexbot.execute_order(order)
 
     elif order == "limit":
         if amount != 0 and price > 0:
             order = LimitOrder(amount, price)
             if order:
-                result = mexbot.executeOrder(order)
+                result = mexbot.execute_order(order)
         else:
             click.echo(
                 'In limit orders price must be greater than 0')
+
     elif order == "iceberg":
         total = input("Size of order: ")
         count = input("Number of orders: ")
         price = input("Price: ")
         order = IcebergOrder(int(total), int(count), int(price), 50)
-        result = mexbot.executeOrder(order)
+        result = mexbot.execute_order(order)
 
     elif order == "scaled":
         total = input('Size of order: ')
@@ -54,6 +55,7 @@ def start(order, amount, price, symbol, position, ticker):
         low = input('Lowest price: ')
         high = input('Highest price: ')
         distribution = input('Disctribution(flat/falling/raising): ')
+
         if distribution == "flat":
             distribution = [25, 25, 25, 25, 25]
         elif distribution == "falling":
@@ -66,7 +68,7 @@ def start(order, amount, price, symbol, position, ticker):
             sys.exit()
 
         order = ScaledOrder(total, count, low, high, 0, 0, distribution)
-        result = mexbot.executeOrder(order)
+        result = mexbot.execute_order(order)
 
     else:
         mexbot.logger.error("Invalid order type")
@@ -87,7 +89,7 @@ def start(order, amount, price, symbol, position, ticker):
 class Mexbot():
 
     def __init__(self, symbol):
-        self.currentPrice = None
+        self.current_price = None
         self.logger = utils.setup_logger()
         self.logger.debug("Starting Mexbot")
         self.instruments = utils.get_instruments()
@@ -104,15 +106,15 @@ class Mexbot():
         except:
             self.logger.error("Cant connect to the exchange")
             sys.exit()
-        self.tickerThread = threading.Thread(
+        self.ticker_thread = threading.Thread(
             target=Ticker.run, args=[self], daemon=True)
-        self.tickerThread.start()
+        self.ticker_thread.start()
 
     def get_ticker(self):
-        return self.currentPrice
+        return self.current_price
 
-    def updateTicker(self, ticker):
-        self.currentPrice = ticker
+    def update_ticker(self, ticker):
+        self.current_price = ticker
 
     def get_position(self):
         try:
@@ -122,7 +124,7 @@ class Mexbot():
             self.logger.error("Cant rerieve current position")
             sys.exit()
 
-    def executeOrder(self, order):
+    def execute_order(self, order):
         order_type = type(order)
         if order_type is LimitOrder or order_type is MarketOrder:
             try:
@@ -130,6 +132,7 @@ class Mexbot():
                     symbol=self.symbol, orderQty=order.amount).result()
                 self.logger.info("Order " + str(result[0].get("ordStatus")))
                 return result
+
             except:
                 self.logger.error("Order rejected by the exchange")
 
@@ -150,16 +153,16 @@ class Mexbot():
 
             return results
 
-    def setInstruments(self, instruments):
+    def set_instruments(self, instruments):
         self.instruments = instruments
 
-    def changeSymbol(self, symbol):
+    def change_symbol(self, symbol):
         if symbol in self.instruments:
             self.symbol = symbol
 
 
 if __name__ == "__main__":
-    # click handling the parameters
+    # click handling the parameters, making pylint happy
     # pylint: disable=no-value-for-parameter
     start()
     sys.exit()

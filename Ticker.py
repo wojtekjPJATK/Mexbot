@@ -15,5 +15,5 @@ def run(mexbot):
 
     # Run forever
     while(ws.ws.sock.connected):
-        mexbot.updateTicker(ws.get_ticker())
+        mexbot.update_ticker(ws.get_ticker())
     mexbot.logger.error("Websocket disconnected")
