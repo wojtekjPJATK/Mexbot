@@ -51,6 +51,7 @@ class RootWidget(FloatLayout):
     def show_selected_pair(self, pair):
         print('Pair: ' + pair)
         #mex = Mexbot(pair)
+        return pair
 
     def show_selected_value(self, orderType):
 
@@ -307,7 +308,6 @@ class UI(App):
 
 if __name__ == "__main__":
     app = UI()
-    app.run()
     def newThread():
         app.run()
 
